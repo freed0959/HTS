@@ -23,6 +23,19 @@ Partial Class HTS2_PassCon
         '           server control at run time. 
     End Sub
 
+    Public Function cekData(ByVal myValue1 As Object) As String
+        If myValue1 Is Nothing Or IsDBNull(myValue1) Then
+            Return ""
+        Else
+            If String.IsNullOrWhiteSpace(myValue1) = True Then
+                Return ""
+            Else
+                Return String.Concat(myValue1.ToString(), " <br />")
+            End If
+        End If
+
+    End Function
+
     Protected Sub GetLastSent(ByVal lbl As Label, ByVal type As String)
         Dim shf As String
         If type = "48" Then
@@ -69,7 +82,7 @@ Partial Class HTS2_PassCon
     End Function
 
     Protected Sub Page_Init(sender As Object, e As EventArgs) Handles Me.Init
-        Page.Title = "Truck Distribution to ROM Page "
+        Page.Title = "Truck Distribution to ROM  "
         Dim v As String = Request.QueryString("v")
 
         Dim jam As Integer = DateTime.Now.Hour
@@ -90,11 +103,12 @@ Partial Class HTS2_PassCon
 
         Dim ugrup As Int32 = 5
         Dim ucomp As String = "ADARO"
-        If Request.Cookies("htspub")("idgroup") IsNot Nothing Then
-            ugrup = Int32.Parse(Request.Cookies("htspub")("idgroup"))
-            ucomp = GetUsrCompany()
-        End If
+        'If Request.Cookies("htspub")("idgroup") IsNot Nothing Then
+        '    ugrup = Int32.Parse(Request.Cookies("htspub")("idgroup"))
+        '    ucomp = GetUsrCompany()
+        'End If
 
+        ucomp = "SIS"
         Select Case v
             Case "0", ""
                 MultiView1.ActiveViewIndex = 0
@@ -138,6 +152,12 @@ Partial Class HTS2_PassCon
 
                 pan_uc1.Visible = True
 
+                SqlDS_truckpass.SelectParameters.Clear()
+                SqlDS_truckpass.SelectParameters.Add("dtm", dtm.ToString("MM/dd/yyyy"))
+                SqlDS_truckpass.SelectParameters.Add("kon", ucomp)
+                grid_pass1.DataBind()
+
+
         End Select
     End Sub
 
@@ -159,6 +179,7 @@ Partial Class HTS2_PassCon
 
         cmd.CommandText = "_sp_pascon_lis1"
         cmd.Parameters.AddWithValue("@dtm", dtm1)
+        cmd.Parameters.AddWithValue("@com", ucomp)
         If Not String.IsNullOrEmpty(unt) Then
             cmd.Parameters.AddWithValue("@unt", unt)
         End If
@@ -168,7 +189,6 @@ Partial Class HTS2_PassCon
         If rom <> "all" Then
             cmd.Parameters.AddWithValue("@rom", rom)
         End If
-        cmd.Parameters.AddWithValue("@com", ucomp)
         cmd.CommandType = CommandType.StoredProcedure
         conn.Open()
         cmd.ExecuteNonQuery()
@@ -177,6 +197,19 @@ Partial Class HTS2_PassCon
         connect = Nothing
         
         GridView2.DataBind()
+
+        SqlDS_truckpass.SelectParameters.Clear()
+        SqlDS_truckpass.SelectParameters.Add("@dtm", dtm1)
+        SqlDS_truckpass.SelectParameters.Add("@kon", ucomp)
+        If Not String.IsNullOrEmpty(unt) Then
+            cmd.Parameters.AddWithValue("@trc", unt)
+        End If
+        If raw <> "all" Then
+            cmd.Parameters.AddWithValue("@mat", raw)
+        End If
+        grid_pass1.DataBind()
+
+
         
     End Sub
 
@@ -355,7 +388,7 @@ Partial Class HTS2_PassCon
 
     Protected Sub img_xls2_Click(sender As Object, e As ImageClickEventArgs) Handles img_xls2.Click
         GridView2.Columns(9).Visible = False
-        WeightBridge.ExportFile.xlsport(GridView2, "Truck_ROMDistribution_", Me)
+        'WeightBridge.ExportFile.xlsport(GridView2, "Truck_ROMDistribution_", Me)
     End Sub
 
     Public Function ranfn() As String
@@ -370,7 +403,7 @@ Partial Class HTS2_PassCon
     Protected Sub img_pdf2_Click(sender As Object, e As ImageClickEventArgs) Handles img_pdf2.Click
         ds_dist1.SelectCommand = sqlkeep1.Text
         GridView2.DataBind()
-        WeightBridge.ExportFile.pdfport(GridView2, "trudis", 1, Me)
+        'WeightBridge.ExportFile.pdfport(GridView2, "trudis", 1, Me)
     End Sub
 
     Protected Sub ds_dist1_Selected(sender As Object, e As SqlDataSourceStatusEventArgs) Handles ds_dist1.Selected
@@ -406,12 +439,12 @@ Partial Class HTS2_PassCon
     End Sub
 
     Protected Sub GridView2_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles GridView2.RowCommand
-        Dim s As Object = GridView2.DataKeys(Integer.Parse(e.CommandArgument.ToString())).Value
-        dtkeep1.Text = s.ToString()
-        MultiView1.ActiveViewIndex = 2
-        ds_dist2.DataBind()
+        'Dim s As Object = GridView2.DataKeys(Integer.Parse(e.CommandArgument.ToString())).Value
+        'dtkeep1.Text = s.ToString()
+        'MultiView1.ActiveViewIndex = 2
+        'ds_dist2.DataBind()
 
-        pan_uc1.Visible = False
+        'pan_uc1.Visible = False
     End Sub
 
     Protected Sub dtv_plan1_ModeChanging(sender As Object, e As DetailsViewModeEventArgs) Handles dtv_plan1.ModeChanging
@@ -430,12 +463,12 @@ Partial Class HTS2_PassCon
     End Sub
 
     Protected Sub img_xls1_Click(sender As Object, e As ImageClickEventArgs) Handles img_xls1.Click
-        WeightBridge.ExportFile.xlsport(grid_plan1, "passing_plan_shif1", Me)
+        'WeightBridge.ExportFile.xlsport(grid_plan1, "passing_plan_shif1", Me)
         'xlsport("ds_sp_planpass_rep1", grid_plan1, "passing_plan_shif1")'
     End Sub
 
     Protected Sub img_xls3_Click(sender As Object, e As ImageClickEventArgs) Handles img_xls3.Click
-        WeightBridge.ExportFile.xlsport(grid_plan2, "passing_plan_shif2", Me)
+        'WeightBridge.ExportFile.xlsport(grid_plan2, "passing_plan_shif2", Me)
         'xlsport("ds_sp_passplan_rep2", grid_plan2, "passing_plan_shif2")'
 
     End Sub
@@ -505,11 +538,11 @@ Partial Class HTS2_PassCon
 
  
     Protected Sub img_pdf1_Click(sender As Object, e As ImageClickEventArgs) Handles img_pdf1.Click
-        WeightBridge.ExportFile.pdfport(grid_plan1, "passing_plan_shif1", 1, Me)
+        ' WeightBridge.ExportFile.pdfport(grid_plan1, "passing_plan_shif1", 1, Me)
     End Sub
 
     Protected Sub img_pdf3_Click(sender As Object, e As ImageClickEventArgs) Handles img_pdf3.Click
-        WeightBridge.ExportFile.pdfport(grid_plan2, "passing_plan_shif2", 1, Me)
+        'WeightBridge.ExportFile.pdfport(grid_plan2, "passing_plan_shif2", 1, Me)
     End Sub
 
     Protected Sub grid_plan1_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grid_plan1.RowDataBound
@@ -557,5 +590,45 @@ Partial Class HTS2_PassCon
         ds_sp_passplan_rep2.SelectParameters.Add("shf", dbType:=DbType.String, value:="2")
         ds_sp_passplan_rep2.SelectParameters.Add("kon", dbType:=DbType.String, value:=Request.Cookies("htspub")("comname"))
         grid_plan2.DataBind()
+    End Sub
+
+    Protected Sub SqlDS_truckpass_Selected(sender As Object, e As SqlDataSourceStatusEventArgs) Handles SqlDS_truckpass.Selected
+        If e.Exception IsNot Nothing Then
+            'tes
+        Else
+            lbl_tot3.Text = String.Format("Total record: {0} found", e.AffectedRows)
+        End If
+    End Sub
+
+    Protected Sub grid_pass1_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grid_pass1.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+            Select Case DataBinder.Eval(e.Row.DataItem, "series_name").ToString()
+                Case "E5000"
+                    e.Row.Cells(3).BackColor = System.Drawing.Color.FromArgb(153, 204, 0)
+
+                Case "E4900"
+                    e.Row.Cells(3).BackColor = System.Drawing.Color.FromArgb(255, 204, 0)
+
+                Case "E4000"
+                    e.Row.Cells(3).BackColor = System.Drawing.Color.Gray
+                    e.Row.Cells(3).ForeColor = System.Drawing.Color.AliceBlue
+            End Select
+        End If
+    End Sub
+
+    Protected Sub cbSelectAll_CheckedChanged(sender As Object, e As EventArgs)
+        Dim objChkAll As CheckBox = DirectCast(GridView2.HeaderRow.FindControl("chkSelectAll"), CheckBox)
+        If objChkAll.Checked Then
+            For Each objGVR As GridViewRow In GridView2.Rows
+                Dim objChkIndividual As CheckBox = DirectCast(objGVR.FindControl("cbRows"), CheckBox)
+                objChkIndividual.Checked = True
+            Next
+        Else
+            For Each objGVR As GridViewRow In GridView2.Rows
+                Dim objChkIndividual As CheckBox = DirectCast(objGVR.FindControl("cbRows"), CheckBox)
+                objChkIndividual.Checked = False
+            Next
+        End If
+
     End Sub
 End Class

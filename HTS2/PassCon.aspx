@@ -3,6 +3,9 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
+
+    <link rel="Stylesheet" href="css_ajax_tabcontainer.css" type="text/css" />
+
     <script type="text/javascript">
         <!--
 
@@ -52,43 +55,7 @@
         }
     </script>
 
-    <style type="text/css">
-        input[type=file] {
-            position: relative;
-            -webkit-appearance: textfield;
-            -webkit-box-sizing: border-box;
-            width: 200px;
-        }
 
-            input[type=file]::-webkit-file-upload-button {
-                border: none;
-                margin: 0;
-                padding: 0;
-                -webkit-appearance: none;
-                width: 0;
-            }
-            /* "x::-webkit-file-upload-button" forces the rules to only apply to browsers that support this pseudo-element */
-            x::-webkit-file-upload-button, input[type=file]:after {
-                content: 'Browse...';
-                display: inline-block;
-                left: 100%;
-                margin-left: 3px;
-                padding: 3px 8px 2px;
-                position: relative;
-                -webkit-appearance: button;
-            }
-
-        .srcTxt {
-            height: 25px;
-            width: 225px;
-            font-family: arial Verdana Calibri;
-            font-size: 24px;
-        }
-
-        .auto-style1 {
-            height: 26px;
-        }
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="Server">
@@ -257,76 +224,198 @@
                 </tr>
             </table>
 
-            <asp:Panel runat="server" ID="Panel3" Style="width: 880px;" CssClass="pantool">
-                <div class="olet">
-                    <asp:ImageButton ID="img_char2" runat="server" ImageUrl="images/kchart.png" AlternateText="Click to View Chart" />
-                    <asp:ImageButton ID="img_xls2" runat="server" ImageUrl="images/document_microsoft_excel_01.png" AlternateText="Click to Export Data to Excel" />
-                    <asp:ImageButton ID="img_pdf2" runat="server" ImageUrl="images/pdf.png" AlternateText="Click to Export Data to Pdf" />
-                </div>
-                <div class="orig">
-                    <asp:Label ID="lbl_tot2" runat="server" CssClass="totlbl"></asp:Label>
-                    <asp:DropDownList ID="ddl_pag2" runat="server" AutoPostBack="True" CssClass="ddl" BackColor="#FFCC66" ForeColor="#333333"
-                        Font-Names="Calibri,Arial,Verdana" Height="30px">
-                        <asp:ListItem Value="25">25 Rows per Page</asp:ListItem>
-                        <asp:ListItem Value="100">100 Rows per Page</asp:ListItem>
-                        <asp:ListItem Value="500">500 Rows per Page</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:ImageButton ID="img_tplt2" runat="server" ImageUrl="~/HTS2/images/table.png" AlternateText="Upload Template" />
-                    <asp:ImageButton ID="img_upl2" runat="server" ImageUrl="~/HTS2/images/move_waiting_up.png" AlternateText="Click to Upload Data" />
-                    <asp:ImageButton ID="img_add2" runat="server" ImageUrl="~/HTS2/images/file_new_01.png" AlternateText="Click to Manual Entry Data" />
-                </div>
-            </asp:Panel>
+            <ajx:TabContainer ID="TabContainer1" runat="server" ActiveTabIndex="0" Width="1060px" CssClass="ajax__tab_blueGrad-theme">
+                <ajx:TabPanel ID="TabPanel1" runat="server" HeaderText="Truck to ROM">
+                    <ContentTemplate>
+                        <asp:Panel runat="server" ID="Panel3" Style="width: 880px;" CssClass="pantool">
+                            <div class="olet">
+                                <asp:ImageButton ID="img_char2" runat="server" ImageUrl="images/kchart.png" AlternateText="Click to View Chart" />
+                                <asp:ImageButton ID="img_xls2" runat="server" ImageUrl="images/document_microsoft_excel_01.png" AlternateText="Click to Export Data to Excel" />
+                                <asp:ImageButton ID="img_pdf2" runat="server" ImageUrl="images/pdf.png" AlternateText="Click to Export Data to Pdf" />
+                            </div>
+                            <div class="orig">
+                                <asp:Label ID="lbl_tot2" runat="server" CssClass="totlbl"></asp:Label>
+                                <asp:DropDownList ID="ddl_pag2" runat="server" AutoPostBack="True" CssClass="ddl" BackColor="#FFCC66" ForeColor="#333333"
+                                    Font-Names="Calibri,Arial,Verdana" Height="30px">
+                                    <asp:ListItem Value="25">25 Rows per Page</asp:ListItem>
+                                    <asp:ListItem Value="100">100 Rows per Page</asp:ListItem>
+                                    <asp:ListItem Value="500">500 Rows per Page</asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:ImageButton ID="img_tplt2" runat="server" ImageUrl="~/HTS2/images/table.png" AlternateText="Upload Template" />
+                                <asp:ImageButton ID="img_upl2" runat="server" ImageUrl="~/HTS2/images/move_waiting_up.png" AlternateText="Click to Upload Data" />
+                                <asp:ImageButton ID="img_add2" runat="server" ImageUrl="~/HTS2/images/file_new_01.png" AlternateText="Click to Manual Entry Data" />
+                            </div>
+                        </asp:Panel>
 
-            <asp:GridView ID="GridView2" runat="server" AllowPaging="True" AutoGenerateColumns="False" CellPadding="2" DataKeyNames="ID_RomDist" DataSourceID="ds_dist1" EmptyDataText="Sorry Data Not Found" ForeColor="#333333" PageSize="25" ShowHeaderWhenEmpty="True" Width="860px" AllowSorting="True">
-                        <AlternatingRowStyle BackColor="#D9EAE4" />
-                        <Columns>
-                            <asp:TemplateField HeaderText="No.">
-                                <ItemTemplate>
-                                    <%# Container.DataItemIndex+1 %>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="ID_RomDist" HeaderText="ID_RomDist" SortExpression="ID_RomDist" Visible="False" InsertVisible="False" ReadOnly="True" />
-                            <asp:BoundField DataField="TransactionDate" HeaderText="TransactionDate" SortExpression="TransactionDate" Visible="False"></asp:BoundField>
-                            <asp:BoundField DataField="TransactionDate" DataFormatString="{0:hh:mm tt}" HeaderText="Time" HtmlEncode="False" SortExpression="TransactionDate">
-                                <ItemStyle HorizontalAlign="Right" />
-                            </asp:BoundField>
-                            <asp:BoundField DataField="Shift" HeaderText="Shift" SortExpression="Shift" />
-                            <asp:BoundField DataField="KontraktorKode" HeaderText="KontraktorKode" SortExpression="KontraktorKode" Visible="False" />
-                            <asp:BoundField DataField="TruckNo" HeaderText="TruckNo" SortExpression="TruckNo" />
-                            <asp:BoundField DataField="MaterialKode" HeaderText="MaterialKode" SortExpression="MaterialKode" />
-                            <asp:BoundField DataField="SourceKode" HeaderText="SourceKode" SortExpression="SourceKode" />
-                            <asp:CommandField ButtonType="Image" SelectImageUrl="~/Images/hts_nu_icons/table_edit (2).png" ShowSelectButton="True">
-                                <ControlStyle Width="16px" />
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:CommandField>
-                        </Columns>
-                        <EditRowStyle BackColor="#CCCCCC" />
-                        <EmptyDataRowStyle BackColor="White" Height="100px" VerticalAlign="Middle" />
-                        <FooterStyle BackColor="#6ACCA3" Font-Bold="True" ForeColor="White" />
-                        <HeaderStyle BackColor="#336600" Font-Bold="False" Font-Names="Arial" Font-Size="7pt" Font-Underline="False" ForeColor="White" Height="35px" HorizontalAlign="Center" Wrap="False" />
-                        <PagerSettings Mode="NumericFirstLast" />
-                        <PagerStyle BackColor="#6ACCA3" ForeColor="White" HorizontalAlign="Center" />
-                        <RowStyle Font-Names="Arial" Font-Size="8pt" />
-                        <SelectedRowStyle BackColor="#99FF99" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#33CCCC" />
-                        <SortedAscendingHeaderStyle BackColor="#33CCCC" />
-                        <SortedDescendingCellStyle BackColor="#009999" />
-                        <SortedDescendingHeaderStyle BackColor="#009999" />
-                    </asp:GridView>
+                        <asp:GridView ID="GridView2" runat="server" AllowPaging="True" AutoGenerateColumns="False" CellPadding="2" DataKeyNames="ID_RomDist" DataSourceID="ds_dist1" EmptyDataText="Sorry Data Not Found" ForeColor="#333333" PageSize="25" ShowHeaderWhenEmpty="True" Width="860px" AllowSorting="True">
+                            <AlternatingRowStyle BackColor="#D9EAE4" />
+                            <Columns>
+                                <asp:TemplateField HeaderText="No.">
+                                    <ItemTemplate>
+                                        <%# Container.DataItemIndex+1 %>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:BoundField DataField="ID_RomDist" HeaderText="ID_RomDist" SortExpression="ID_RomDist" Visible="False" InsertVisible="False" ReadOnly="True" />
+                                <asp:BoundField DataField="TransactionDate" HeaderText="TransactionDate" SortExpression="TransactionDate" Visible="False"></asp:BoundField>
+                                <asp:BoundField DataField="TransactionDate" DataFormatString="{0:hh:mm tt}" HeaderText="Time" HtmlEncode="False" SortExpression="TransactionDate">
+                                    <ItemStyle HorizontalAlign="Right" />
+                                </asp:BoundField>
+                                <asp:BoundField DataField="TruckNo" HeaderText="TruckNo" SortExpression="TruckNo" />
+                                <asp:BoundField DataField="MaterialKode" HeaderText="MaterialKode"
+                                    SortExpression="MaterialKode" Visible="False" />
+                                <asp:BoundField DataField="SourceKode" HeaderText="SourceKode"
+                                    SortExpression="SourceKode" Visible="False" />
+                                <asp:TemplateField HeaderText="MaterialKode">
+                                    <ItemTemplate>
+                                        <asp:DropDownList ID="ddl_mat1" runat="server" DataSourceID="ds_raw1"
+                                            DataTextField="cargo" DataValueField="kode">
+                                        </asp:DropDownList>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="SourceKode">
+                                    <ItemTemplate>
+                                        <asp:DropDownList ID="ddl_rom1" runat="server" DataSourceID="ds_rom1" DataTextField="kode" DataValueField="kode">
+                                        </asp:DropDownList>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <HeaderTemplate>
+                                        <asp:CheckBox ID="cbSelectAll" runat="server" AutoPostBack="True"
+                                            OnCheckedChanged="cbSelectAll_CheckedChanged" />
+                                    </HeaderTemplate>
+                                    <ItemTemplate>
+                                        <asp:CheckBox ID="cbRows" runat="server" />
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" />
+                                </asp:TemplateField>
+                            </Columns>
+                            <EditRowStyle BackColor="#CCCCCC" />
+                            <EmptyDataRowStyle BackColor="White" Height="100px" VerticalAlign="Middle" />
+                            <FooterStyle BackColor="#6ACCA3" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#336600" Font-Bold="False" Font-Names="Arial" Font-Size="7pt" Font-Underline="False" ForeColor="White" Height="35px" HorizontalAlign="Center" Wrap="False" />
+                            <PagerSettings Mode="NumericFirstLast" />
+                            <PagerStyle BackColor="#6ACCA3" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle Font-Names="Arial" Font-Size="8pt" />
+                            <SelectedRowStyle BackColor="#99FF99" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#33CCCC" />
+                            <SortedAscendingHeaderStyle BackColor="#33CCCC" />
+                            <SortedDescendingCellStyle BackColor="#009999" />
+                            <SortedDescendingHeaderStyle BackColor="#009999" />
+                        </asp:GridView>
 
 
-                    <asp:SqlDataSource ID="ds_dist1" runat="server" ConnectionString="<%$ ConnectionStrings:HTSdbConn %>"
-                        SelectCommand="_sp_pascon_lis1" SelectCommandType="StoredProcedure">
-                        <SelectParameters>
-                            <asp:Parameter Name="dtm" Type="String" />
-                            <asp:Parameter Name="unt" Type="String" />
-                            <asp:Parameter Name="mat" Type="String" />
-                            <asp:Parameter Name="rom" Type="String" />
-                            <asp:Parameter Name="com" Type="String" />
-                        </SelectParameters>
-                    </asp:SqlDataSource>           
+                        <asp:SqlDataSource ID="ds_dist1" runat="server" ConnectionString="<%$ ConnectionStrings:HTSdbConn %>"
+                            SelectCommand="_sp_pascon_lis1" SelectCommandType="StoredProcedure">
+                            <SelectParameters>
+                                <asp:Parameter Name="dtm" Type="String" />
+                                <asp:Parameter Name="unt" Type="String" />
+                                <asp:Parameter Name="mat" Type="String" />
+                                <asp:Parameter Name="rom" Type="String" />
+                                <asp:Parameter Name="com" Type="String" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>
+                    </ContentTemplate>
+                </ajx:TabPanel>
 
-            <asp:Panel ID="pan_loadTD" runat="server">
+                <ajx:TabPanel ID="TabPanel2" runat="server" HeaderText="RTK Passing">
+                    <ContentTemplate>
+                        <asp:Panel ID="pan_passing1" runat="server">
+                            <asp:Panel ID="Panel4" runat="server" CssClass="pantool" Style="width: 880px;">
+                                <div class="olet">
+                                    <asp:ImageButton ID="img_char3" runat="server" AlternateText="Click to View Chart" ImageUrl="images/kchart.png" />
+                                    <asp:ImageButton ID="img_xls4" runat="server" AlternateText="Click to Export Data to Excel" ImageUrl="images/document_microsoft_excel_01.png" />
+                                    <asp:ImageButton ID="img_pdf4" runat="server" AlternateText="Click to Export Data to Pdf" ImageUrl="images/pdf.png" />
+                                </div>
+                                <div class="orig">
+                                    <asp:Label ID="lbl_tot3" runat="server" CssClass="totlbl"></asp:Label>
+                                    <asp:DropDownList ID="ddl_pag3" runat="server" AutoPostBack="True" BackColor="#FFCC66" CssClass="ddl" Font-Names="Calibri,Arial,Verdana" ForeColor="#333333" Height="30px">
+                                        <asp:ListItem Value="25">25 Rows per Page</asp:ListItem>
+                                        <asp:ListItem Value="100">100 Rows per Page</asp:ListItem>
+                                        <asp:ListItem Value="500">500 Rows per Page</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </asp:Panel>
+                            <asp:GridView ID="grid_pass1" runat="server" AllowPaging="True" AutoGenerateColumns="False" CellPadding="2" DataSourceID="SqlDS_truckpass"
+                                EmptyDataText="Sorry, Data Not Found" ForeColor="#333333" PageSize="25" ShowHeaderWhenEmpty="True" Width="860px" DataKeyNames="ID_Pass" AllowSorting="True">
+                                <AlternatingRowStyle BackColor="White" />
+                                <Columns>
+                                    <asp:TemplateField HeaderText="No.">
+                                        <ItemTemplate>
+                                            <%# Container.DataItemIndex + 1%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="ID_Pass" HeaderText="ID_Pass" SortExpression="ID_Pass" Visible="False" />
+                                    <asp:BoundField DataField="TruckNo" HeaderText="TruckNo" SortExpression="TruckNo" />
+                                    <asp:BoundField DataField="seamcargo" HeaderText="Raw Cargo" SortExpression="seamcargo" />
+                                    <asp:BoundField DataField="SourceKode" HeaderText="ROM" SortExpression="SourceKode" />
+                                    <asp:BoundField DataField="alamo" HeaderText="Raw Cargo" SortExpression="alamo">
+                                        <HeaderStyle BackColor="#FF9933" ForeColor="Black" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Gross" HeaderText="Nett" SortExpression="Gross" DataFormatString="{0:N0}" HtmlEncode="False">
+                                        <HeaderStyle BackColor="#FF9933" ForeColor="Black" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="TransactionDate" HeaderText="Km. 67" SortExpression="TransactionDate" DataFormatString="{0:hh:mm tt}" HtmlEncode="False">
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="TD_29Pass" DataFormatString="{0:hh:mm tt}" HeaderText="Km. 29" HtmlEncode="False" SortExpression="TD_29Pass">
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="TD_inQueue" DataFormatString="{0:hh:mm tt}" HeaderText="Km. 2" HtmlEncode="False" SortExpression="TD_inQueue">
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="DateClosed" DataFormatString="{0:hh:mm tt}" HeaderText="Closed" HtmlEncode="False" SortExpression="DateClosed">
+                                        <ItemStyle HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:TemplateField HeaderText="INFO">
+                                        <ItemTemplate>
+                                            <asp:HyperLink ID="HyperLink1" runat="server" Text='<%# cekData(Eval("blockrem"))%>'
+                                                NavigateUrl='<%# String.Concat("passentry1.aspx?v=1&idp=", Eval("ID_Pass"))%>'
+                                                Target='<%# "fltdev" & Eval("ID_Pass")%>' class="blink"
+                                                onClick="window.open(this.href, this.target,'status=1,scrollbars=1,resizable=1,width=600,height=250,left=10,top=10'); return false"></asp:HyperLink>
+                                            <asp:Label ID="Label6" runat="server" Text='<%# cekData(Eval("miss67"))%>'></asp:Label>
+                                            <asp:Label ID="Label3" runat="server" Text='<%# cekData(Eval("block29"))%>' class="blink" ForeColor="maroon"></asp:Label>
+                                            <asp:Label ID="Label4" runat="server" Text='<%# cekData(Eval("blockQ"))%>' class="blink" ForeColor="maroon"></asp:Label>
+                                            <asp:Label ID="Label5" runat="server" Text='<%# cekData(Eval("uns"))%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="MaterialKode" HeaderText="MaterialKode" SortExpression="MaterialKode" Visible="False" />
+                                </Columns>
+                                <EditRowStyle BackColor="#CCCCCC" />
+                                <EmptyDataRowStyle BackColor="White" Height="100px" VerticalAlign="Middle" />
+                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle BackColor="#507CD1" Font-Bold="False" Font-Names="Arial" Font-Size="7pt" Font-Underline="False" ForeColor="White" Height="35px" HorizontalAlign="Center" Wrap="False" />
+                                <PagerSettings Mode="NumericFirstLast" Position="TopAndBottom" />
+                                <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Center" />
+                                <RowStyle BackColor="#EFF3FB" Font-Names="Arial" Font-Size="8pt" VerticalAlign="Top" />
+                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                                <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                                <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                                <SortedDescendingHeaderStyle BackColor="#4870BE" />
+                            </asp:GridView>
+
+                            <asp:SqlDataSource ID="SqlDS_truckpass" runat="server" ConnectionString="<%$ ConnectionStrings:HTSdbConn %>" OnSelected="SqlDS_truckpass_Selected" SelectCommand="_sp_rtk_passdaily1" SelectCommandType="StoredProcedure">
+                                <SelectParameters>
+                                    <asp:Parameter Name="dtm" Type="String" />
+                                    <asp:Parameter Name="trc" Type="String" />
+                                    <asp:Parameter Name="mat" Type="String" />
+                                    <asp:Parameter Name="prod" Type="String" />
+                                    <asp:Parameter Name="kon" Type="String" />
+                                    <asp:Parameter Name="b67" Type="Byte" />
+                                    <asp:Parameter Name="b29" Type="Byte" />
+                                    <asp:Parameter Name="b02" Type="Byte" />
+                                    <asp:Parameter Name="clos" Type="Byte" />
+                                    <asp:Parameter Name="ord" Type="String" />
+                                </SelectParameters>
+                            </asp:SqlDataSource>
+
+                        </asp:Panel>
+                    </ContentTemplate>
+                </ajx:TabPanel>
+
+            </ajx:TabContainer>
+            
+                        <asp:Panel ID="pan_loadTD" runat="server">
                 <div class="HellowWorldPopup">
                     <div class="PopupHeader" id="PopupHeader">
                         Upload Truck Distribution Data<br />

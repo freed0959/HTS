@@ -1172,11 +1172,11 @@ Partial Class HTS2_Passing
 
 
     Protected Sub rcpXls1_Click(sender As Object, e As ImageClickEventArgs) Handles rcpXls1.Click
-        WeightBridge.ExportFile.xlsport(grid_shadow1, "passing_data", Me)
+        'WeightBridge.ExportFile.xlsport(grid_shadow1, "passing_data", Me)
     End Sub
 
     Protected Sub rcpPdf1_Click(sender As Object, e As ImageClickEventArgs) Handles rcpPdf1.Click
-        WeightBridge.ExportFile.pdfport(grid_shadow1, "passing_data", 1, Me)
+        'WeightBridge.ExportFile.pdfport(grid_shadow1, "passing_data", 1, Me)
     End Sub
 
     Protected Sub ddl_pag1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddl_pag1.SelectedIndexChanged
