@@ -1,0 +1,17 @@
+      .slide-out-div {
+          padding: 20px;
+          width: 50px;
+          background: #ccc;
+          position:fixed !important;
+          top:0px;    
+          z-index:5000;                     
+      }      
+
+.slide-schemablend-sum1 {
+          padding: 20px;
+          width: 130px;
+          background: #ccc;
+          position:fixed !important;
+          top:0px;    
+          z-index:5000;                     
+}      

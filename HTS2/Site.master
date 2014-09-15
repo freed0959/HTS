@@ -1,0 +1,429 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="HTS2_Site" %>
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="ajx" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head runat="server">
+    <meta name="keywords" content="hauling, tracking, weigh bridge, statistic, monitoring" />
+    <meta name="description" content="Adaro Hauling Tracking System Intranet Web Application Copyright PT Adaro Indonesia" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+    <meta name="viewport" content="width=device-width" />
+    <title><%: Page.Title %>Page</title>
+    
+    <link href="templatemo_style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <script language="javascript" src="templatemo_image_fader.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        function clearText(field) {
+            if (field.defaultValue == field.value) field.value = '';
+            else if (field.value == '') field.value = field.defaultValue;
+        }
+    </script>
+
+    <link href="megamenu/css/dcmegamenu.css" rel="stylesheet" type="text/css"/>
+    <script src="megamenu/js/jquery.min.js" type="text/javascript"></script>
+    <script src="megamenu/js/jquery.hoverIntent.minified.js" type="text/javascript"></script>
+    <script src="megamenu/js/jquery.dcmegamenu.1.3.3.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function($){	            
+	            $('#mega-menu-0').dcMegaMenu({
+		            rowItems: '3',
+		            speed: 'fast',
+		            effect: 'slide'
+	            });
+
+	            $('#mega-menu-1').dcMegaMenu({
+	                rowItems: '3',
+	                speed: 'fast',
+	                effect: 'fade'
+	            });
+
+	            $('#mega-menu-2').dcMegaMenu({
+	                rowItems: '2',
+	                speed: 'fast',
+	                effect: 'fade'
+	            });
+            });
+        </script>
+
+    <link href="megamenu/css/skins/orange.css" rel="stylesheet" type="text/css"/>    
+    <link href="megamenu/css/skins/green.css" rel="stylesheet" type="text/css"/>
+
+
+    <asp:PlaceHolder id="head" runat="server">
+        <script type="text/jscript" src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>
+    </asp:PlaceHolder>
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />    
+</head>
+
+<body>
+     <form id="form1" runat="server">
+         <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="jquery.ui.combined" />                    
+              </Scripts>
+        </asp:ScriptManager> 
+
+    <div class="templatemo_container">
+
+		<div id="templatemo_header">
+        	<div id="templatemo_logo_area">
+            	<div id="templatemo_logo">
+                    <asp:Image ID="weblogo" runat="server" ImageUrl="~/Images/small.jpg" Width="120px" />
+            	</div>
+
+                <div id="templatemo_slogan"></div>
+                <div class="cleaner"></div>
+            </div>
+
+               <div id="judul">
+                    <h1 style="color: gold; line-height:2em;">
+                        <asp:Literal ID="AppTitle1Lit" runat="server"></asp:Literal></h1>                  
+                </div>
+
+            
+            <div id="templatemo_search" style="z-index:500;">
+
+                <table style="background-color:white; float:right; width:200px;" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="padding-left: 15px;">
+                            <%: DateTime.Now.ToString("dd MMM yyyy")%></td>
+                        <td><%: DateTime.Now.ToString("hh:mm tt") %></td>                        
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 15px;"><asp:Label ID="Label3" runat="server" Text="User Name "></asp:Label></td>
+                        <td><asp:Label ID="lbl_user1" runat="server" ></asp:Label></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 15px;"><asp:Label ID="Label4" runat="server" Text="User Level "></asp:Label></td>
+                        <td><asp:Label ID="lbl_grup1" runat="server" ></asp:Label></td>
+                    </tr>                    
+                    <asp:Panel ID="adm_Panel1" runat="server" Visible="false">
+                    <tr>
+                        <td style="padding-left: 15px;">
+                            <asp:HyperLink ID="appswitchHyp" runat="server"></asp:HyperLink></td>
+                        <td>
+                            <asp:LinkButton ID="uswitch1Hyp" runat="server" Text="switch_group" ForeColor="red"></asp:LinkButton>
+                            <!--
+                            <asp:HyperLink ID="uswitch1Hyp1" runat="server" Text="switch_group" ForeColor="red"></asp:HyperLink>
+                                -->
+
+                        </td>
+                    </tr>                    
+                    </asp:Panel>
+
+                </table>
+                
+                <!--
+				<form action="#" method="post">
+					<input type="text" value="Type your keyword" name="q" class="field"  title="email" onfocus="clearText(this)" onblur="clearText(this)" />
+					<input type="submit" name="search" value = "Search" alt="Search" class="button" title="Subscribe" />
+			</form>
+                    -->
+			</div>
+        
+                <asp:Panel ID="pan_pubmenu1" runat="server" style="margin-top: 108px;">                    
+                    <div class="orange">  
+                        <ul id="mega-menu-0" class="mega-menu" style="padding-left:175px;">
+	                        <li><a href="Default">Home</a></li>
+	                        <li><a href="Default2">QC-Mine</a></li>
+	                        <li><a href="CoalProd">Coal Production</a></li>
+                            <li><a href="Rom">ROM</a></li>                            
+	                        <li><a href="#">Hauling</a>
+		                        <ul>
+			                        <li><a href="#">Hauling Condition</a>
+				                        <ul>					                        
+					                        <li><a href="Hauling">Hauling Reports &#038; Dashboard</a></li>                                           					                        
+                                            <li><a href="Default?uc=1">Daily Quota</a></li>			
+                                            <li><a href="Default?uc=1">Truck Schedule</a></li>	
+				                        </ul>
+			                        </li>
+			                        <li><a href="#">Passing</a>
+			                            <ul>
+					                        <li><a href="pspln29?v=1">Passing Plan</a></li>					                        
+                                            <li><a href="Passing?v=1">Passing Km. 67</a></li>					                        
+                                            <li><a href="Passing?v=2">Passing Km. 29</a></li>					                        
+                                            <li><a href="Passing?v=3">Kelanis Queue</a></li>					                        
+				                        </ul>
+			                        </li>			                       
+                                    <li><a href="#">Other Info</a>
+			                          <ul>
+				                          <li><a href="Hauling2">Speed/Km Data</a></li>			
+                                          <li><a href="Default?uc=1">Agreed Parameter</a></li>			
+			                          </ul>
+			                        </li>                                     
+		                        </ul>
+	                        </li>
+	                        <li><a href="#">Hopper</a>
+		                        <ul>
+			                        <li><a href="#">Hopper Condition</a>
+	                                <ul>		                                
+		                                <li><a href="Hopper">Hopper Reports &#038; Dashboard</a></li>
+                                        <li><a href="HopperSched?v=0">Hopper Schedule</a></li>		                        
+	                                </ul>
+	                                </li>
+	                                <li><a href="#">Other Info</a>
+	                                <ul>
+		                                <li><a href="HopperSched?v=1">Barge Blending Plan</a></li>
+		                                <li><a href="Hopper2">Closing Summary</a></li>		                       
+	                                </ul>
+                                </li>	                        
+                             </ul>
+                            </li>
+                        <li><a href="Default?uc=1">Stockpile</a></li>
+                        <li><a href="Default?uc=1">Jetty</a></li>                        
+                        <li><a href="#">Admin</a>
+                            <ul>
+                                <li><a href="#">General</a>
+                                    <ul>
+                                        <li><a href="Default?uc=1">User Setting</a></li>
+                                        <li><a href="Default?uc=1">Database Maintenance</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Data Override</a>
+                                    <ul>
+                                        <li><a href="admin">Zero Gross Fix</a></li>
+                                        <li><a href="admin">Material ID Fix</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Refference</a>
+                                    <ul>
+                                        <li><a href="admin">Master Unit</a></li>                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                       </ul>
+                    </div>
+            </asp:Panel>
+            
+            <!--
+            <asp:Panel ID="pan_pasmenu1x" runat="server" Visible="false">
+                 <div id="templatemo_menu" style="position:absolute;left:100px;top: 65px">
+                    <div id="navi" style="margin-left:250px; margin-top: 10px">
+                        <asp:Menu ID="Menu2" runat="server">                        
+                            <DynamicSelectedStyle CssClass="mcurrent" />
+                            <Items>
+                                <asp:MenuItem NavigateUrl="Default" Text="Home" Value="Default"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="Passing?v=1" Text="Km.67 Pass" Value="Passing?v=1"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="Passing?v=2" Text="Km.29 Pass" Value="Passing?v=2"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="Passing?v=3" Text="Kelanis Queue" Value="Passing?v=3"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="Passing?v=4" Text="Closed Transaction" Value="Passing?v=4"></asp:MenuItem> 
+							    <asp:MenuItem NavigateUrl="Rom" Text="ROM Data" Value="Rom"></asp:MenuItem>							
+                            </Items>
+                            <StaticSelectedStyle BackColor="Maroon" ForeColor="White"/>
+                        </asp:Menu>
+                     </div>
+			    </div>
+             </asp:Panel>
+                  -->
+           
+            <asp:Panel ID="pan_pasmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
+                <div class="orange">  
+                        <ul id="mega-menu-1" class="mega-menu" style="padding-left:375px;">	
+	                        <li><a href="#">Hauling</a>
+		                        <ul>			                        
+			                        <li><a href="#">Plan</a>
+			                            <ul>
+					                        <li><a href="pspln29?v=1">Passing Plan</a></li>					                                                                  				                        
+				                        </ul>
+			                        </li>			                       
+                                    <li><a href="#">Actual</a>
+			                          <ul>
+				                            <li><a href="Passing?v=1">Passing Km. 67</a></li>					                        
+                                            <li><a href="Passing?v=2">Passing Km. 29</a></li>					                        
+                                            <li><a href="Passing?v=3">Kelanis Queue</a></li>	
+                                            <li><a href="Passing?v=4">Closed Transaction</a></li>			
+			                          </ul>
+			                        </li>   
+                                     <li><a href="#">Other Info</a>
+			                            <ul>
+					                        <li><a href="Hauling2">Speed/Km Data</a></li>					                                                                  				                        
+				                        </ul>
+			                        </li>	                                  
+		                        </ul>
+	                        </li>
+                            <li><a href="Rom">ROM</a></li>  
+                       </ul>
+                    </div>       
+            </asp:Panel>
+          
+
+            <!--<asp:Panel ID="pan_conmenu1x" runat="server" Visible="false">
+                  <div id="templatemo_menu1" style="position:absolute;left:100px;top: 65px">
+                    <div id="navi1" style="margin-left:250px; margin-top: 10px">
+                            <ul>                    
+                                <li><a href="PassCon?v=0">Passing Plan</a></li>
+                                <li><a href="PassCon?v=1">Truck Distribution</a></li>                    
+            	            </ul>
+                        </div>
+                      </div>
+               </asp:Panel>
+            -->
+            
+            <asp:Panel ID="pan_conmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
+               <div class="green">  
+                        <ul id="mega-menu-2" class="mega-menu" style="padding-left:375px;">	    
+	                        <li><a href="#">Hauling</a>
+		                        <ul>			                        
+			                        <li><a href="#">Plan</a>
+			                            <ul>
+					                        <li><a href="PassCon?v=0">Passing Plan</a></li>					                                                                  				                        
+				                        </ul>
+			                        </li>			                       
+                                    <li><a href="#">Distribution</a>
+			                          <ul>
+				                            <li><a href="PassCon?v=1"">Truck Distribution</a></li>
+			                          </ul>
+			                        </li>                                     
+		                        </ul>
+	                        </li>
+                            <li><a href="Rom">ROM</a></li>  
+                       </ul>
+                    </div>  
+               </asp:Panel>
+          
+            
+        </div><!-- end of header -->
+        
+		<!--
+        <div id="templatemo_image_fader">
+             <script type="text/javascript">
+        	     //new fadeshow(IMAGES_ARRAY_NAME, slideshow_width, slideshow_height, borderwidth, delay, pause (0=no, 1=yes), optionalRandomOrder)
+        	     new fadeshow(fadeimages, 960, 240, 1, 2000, 1, "R")
+
+			</script>
+        </div>-->
+            
+        		
+		<div id="templatemo_content_area" style="margin-top:10px">
+        	<div id="templatemo_right">
+                <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+                <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
+                 
+            	<!--
+                    <div class="templatemo_post">
+                	<div class="templatemo_post_title">
+                    	<a href="#">Free Website Layout</a></div>
+                    <div class="templatemo_post_text">
+	                    <a href="#"><img src="images/templatemo_thumb_1.jpg" alt="Flower" width="150" height="150" /></a>
+					  	<p>Orange Bar is a <a href="http://www.templatemo.com/page/1" target="_parent">free CSS template</a> provided by <a href="http://www.templatemo.com" target="_parent">templatemo.com</a> website. You may download and apply this  layout for  your personal or commercial websites. Credit goes to <a href="http://www.photovaco.com" target="_blank">PhotoVaco.com</a> for photos used in this template. </p>
+				  	  <p>Vivamus ultricies bibendum viverra. Sagittis vel puru and aien ai dofneonsets srci. In vulputate, felis vitae ultrices dapibus, leo nulla ornare erat, eu tincidunt magna ipm sit amet massdtess vivamus sed condimentum ipsum. Quisque ut tortor in elit luctus.</p>
+                  </div>
+                    
+      <div class="templatemo_post_bottom">
+                    	<a href="#">24 comments</a></div>
+                    
+              </div>-->                   
+                
+                
+            </div><!-- End Of right-->
+            
+            <div id="templatemo_left">                
+                <div class="templatemo_section">
+                	<div class="templatemo_section_title">
+                    	Refference
+                    </div>
+                    <div class="templatemo_section_bottom">
+                        <asp:HyperLink ID="hyp_map1" runat="server" Text="Material Mapping" NavigateUrl="~/HTS2/Default2.aspx?map=1" Font-Underline="False"></asp:HyperLink>                        
+                    </div>
+				</div>
+                
+                 <asp:ContentPlaceHolder ID="SideContent1" runat="server"></asp:ContentPlaceHolder>
+            	
+                    
+                
+            </div><!-- End Of left-->
+            
+            <div class="cleaner"></div>
+        
+        </div><!-- End Of Content area -->
+    </div><!-- End Of Container -->
+    
+	<div id="templatemo_bottom_area">
+		<div class="templatemo_container">
+            <!--
+        	<div class="templatemo_section_1">
+            	<h1></h1>
+                <ul class="templatemo_list templatemo_gray_list">					
+					<li><a href="#"></a></li>
+				</ul>
+            </div>
+            
+            <div class="templatemo_section_1">
+				<h1></h1>  
+                <ul class="templatemo_list templatemo_gray_list">
+                	<li><a href="#"></a></li>                     
+				</ul>
+                               
+            </div>
+            
+            <div class="templatemo_section_2">
+            	<h1></h1>
+                <p></p>
+
+          <a href="http://validator.w3.org/check?uri=referer"><img style="border:0;width:88px;height:31px" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" width="88" height="31" vspace="8" border="0" /></a>
+                <a href="http://jigsaw.w3.org/css-validator/check/referer"><img style="border:0;width:88px;height:31px"  src="http://jigsaw.w3.org/css-validator/images/vcss-blue" alt="Valid CSS!" vspace="8" border="0" /></a>
+            </div>
+            
+            <div class="cleaner"></div>
+			-->
+            <div id="templatemo_footer">
+      			Copyright © <%: DateTime.Now.Year%> <a href="http://adaronet/Pages/Default.aspx">PT Adaro Indonesia</a> 
+                | <a href="#" target="_new">Website Templates</a> by <a href="#" target="_new">Free CSS Templates</a>        
+			</div>  
+        </div>
+    </div>
+
+<!--  Free CSS Templates by TemplateMo.com  -->
+<div  style="display:none; text-align:center;">This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div>
+
+    <asp:LinkButton style="visibility:hidden" ID="CloseLink_su" runat="server" OkControlID="CloseLink_su">Close Proxy</asp:LinkButton>
+    <asp:LinkButton style="visibility:hidden" ID="CancelLink_su" runat="server" CancelControlID="CancelLink_su">Cancel Proxy</asp:LinkButton>
+    
+       <asp:Panel ID="pan_su1" runat="server">
+            <div class="PopupHeader" id="PopupHeader">:: Special Function ==> Switch User</div>
+           <div class="PopupBody">      
+               <table>
+                   <tr>
+                       <td><asp:Label ID="Label5" runat="server" Text="Company"></asp:Label></td>
+                       <td><asp:DropDownList ID="ddl_comp1" runat="server" DataSourceID="ds_company1" DataTextField="ref_name" DataValueField="id_ref_master">
+                            </asp:DropDownList></td>
+                   </tr>
+                   <tr>
+                       <td><asp:Label ID="Label6" runat="server" Text="User Level"></asp:Label></td>
+                       <td><asp:DropDownList ID="ddl_grup1" runat="server" DataSourceID="ds_usrlevel1" DataTextField="ref_name" DataValueField="id_ref_master">
+                            </asp:DropDownList></td>
+                   </tr>
+               </table>                              
+           </div>
+           <div class="PopupCmd">
+               <asp:LinkButton ID="link_save" OnClientClick="$('CloseLink_su').click();" runat="server" CommandName="Insert" Text="Switch" OnClick="link_save_Click" ></asp:LinkButton>
+               <asp:LinkButton ID="LinkButton1" OnClientClick="$('CancelLink_su').click();" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel"></asp:LinkButton>
+           </div>
+       </asp:Panel>
+
+       <ajx:modalpopupextender ID="ModalSU1" runat="server" backgroundcssclass="ModalPopupBG" 
+           cancelcontrolid="CancelLink_su" drag="True" 
+            Enabled="True" okcontrolid="CloseLink_su" popupcontrolid="pan_su1" popupdraghandlecontrolid="PopupHeader" 
+           TargetControlID="uswitch1Hyp" DynamicServicePath="" ></ajx:modalpopupextender>
+         
+         <asp:SqlDataSource ID="ds_company1" runat="server" ConnectionString="<%$ ConnectionStrings:HTSdbConn %>" SelectCommand="SELECT [id_ref_master], [ref_name] FROM [tbl_ref_master] WHERE ([id_ref_type] = @id_ref_type)">
+             <SelectParameters>
+                 <asp:Parameter DefaultValue="1" Name="id_ref_type" Type="Int32" />
+             </SelectParameters>
+         </asp:SqlDataSource>
+         <asp:SqlDataSource ID="ds_usrlevel1" runat="server" ConnectionString="<%$ ConnectionStrings:HTSdbConn %>" SelectCommand="SELECT [id_ref_master], [ref_name] FROM [tbl_ref_master] WHERE ([id_ref_type] = @id_ref_type)">
+             <SelectParameters>
+                 <asp:Parameter DefaultValue="2" Name="id_ref_type" Type="Int32" />
+             </SelectParameters>
+         </asp:SqlDataSource>
+         
+       </form>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿ div.ajax__calendar_days table tr td {padding-left:0px;padding-right:0px;}
+
+        .ajax__calendar_dayname{width:6px;}
+        .ajax__calendar_other{width:6px;}
+        .ajax__calendar_day{width:6px;}
+        .ajax__calendar_container { z-index : 5001 ; }
+
+
+        /*.ajax__calendar {
+            position: relative;
+            left: 0px !important;
+            top: 0px !important;
+            visibility: visible; display: block;
+        }
+        .ajax__calendar iframe
+        {
+            left: 0px !important;
+            top: 0px !important;
+        }*/

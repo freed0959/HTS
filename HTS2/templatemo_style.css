@@ -1,0 +1,447 @@
+/*
+CSS Credit: http://www.templatemo.com
+*/
+
+html {
+	background: #fff;
+}
+
+body {
+	margin: 0;
+	padding:0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 1.5em;
+	width: auto;
+	display: table;
+	background: url(images/templatemo_header.jpg) repeat-x;
+    
+}
+
+a:link, a:visited {	color: #0066CC; text-decoration: underline; }
+a:active, a:hover { color: #990000; text-decoration: none; }
+
+p {
+	color: #666;
+	text-align: justify;
+	margin: 0 0 10px 0;	
+}
+
+h1 {
+	font-size: 23px;
+    font-family:'Bauhaus Hv BT'; 
+	color: #999;
+	margin: 0 0 10px 0;
+}
+
+.templatemo_container {
+	width: 100%;
+    /* width: 1366px; */
+	/*width: 1500px;*/
+	margin: auto;
+}
+
+#templatemo_header {
+	width: 100%;
+	height: 130px;
+	padding: 2px 0 0 0;
+	margin: 0 0 25px 0;
+    /*border-style: solid;
+    border-width: 5px;*/
+    
+  
+}
+
+#templatemo_slider {
+	clear: both;
+	width: 100%;
+	height: 320px;
+	padding: 0 10px;
+}
+
+#templatemo_logo_area {
+	float: left;
+	width: 265px;
+	height: 15px;
+	font-weight: bold;
+	color: #CCC;
+	margin: 20px 0 0 0;
+
+    /*display: none;*/
+}
+
+#templatemo_logo {
+	width: 160px;
+    margin-left: 20px;
+    /*border:solid 2px pink;*/   
+
+}
+/*#templatemo_logo a {
+	color: #CCC;
+	text-decoration: none;
+}*/
+#templatemo_slogan {
+	font-size: 14px;
+	margin: 0;
+}
+
+#judul{
+    float: left;
+    margin-left: 150px;
+    margin-top: 30px;  
+/*    margin: 60px 0 0 0;*/
+/*display: none;*/   
+/*border:solid 2px red;*/
+}
+
+    #judul h1 {
+        font-family:'Bauhaus Hv BT'; 
+        color: darkorange;
+        font-size:25px;         
+    }
+
+#templatemo_infoLogin{
+    background-color: white;
+    float: right;
+    margin: 30px 10px 0 0;
+}
+
+#templatemo_search {
+	float: right;
+	width: 250px;
+	height: 33px;
+	margin: 10px 5px 0 0;
+    font-size:10px;
+    /*display: none;*/
+      
+}
+
+.field {
+	float: left;
+	width: 234px;
+	height: 23px;
+	border: none;	
+	border: none;
+	color : #ccc;
+	font-size: 15px;
+	padding: 5px 3px 0 3px;
+	background: #000;
+	border: 1px solid #333;
+
+}
+
+.button {
+	float: right;
+	width: 90px;
+	height: 30px;
+	border: none;	
+	background: url(images/templatemo_button.jpg) repeat-x;
+	border: 1px solid #333;
+	color : #ccc;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+#templatemo_menu {
+    background: url(images/templatemo_headerOrange.PNG) repeat-x;
+    /*border-style: solid;
+    border-width: 5px;*/
+    display: block;
+    width: 100%;
+    height: 40px;
+    float: left;
+    margin-top: 37px;
+    /*z-index:200;*/
+    
+	/*float: left;
+	width: 100%;*/
+	/*margin: 145px 0 0 170px;*/
+    position: relative;
+    /*left: 20%;
+    top: 25%;*/  
+}
+
+#templatemo_menu ul {
+    align-content: center;
+	list-style: none;
+	display: inline;
+}
+
+#templatemo_menu ul li {
+	list-style: none;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#templatemo_menu li a {
+	float: left;
+	height: 23px;
+	display: block;
+	color: #804000;
+	text-decoration: none;
+	font-size: 15px;	
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+	margin: 0 5px 0 0;
+	padding: 5px 20px 0 20px;
+}
+
+#templatemo_menu li.current a, #templatemo_menu li a:hover {
+	background: url(images/templatemo_menu_current.jpg) repeat-x;
+	color: #fff;
+}
+
+#templatemo_image_fader {
+	
+	width: 930px;
+	height: 240px;
+	padding: 0;
+	margin: 0 0 30px 0;
+}
+
+#templatemo_content_area {
+	width: 100%;
+}
+
+#templatemo_right {
+	width: 80%;
+	float: right;
+        margin-left: 10px;
+}
+
+.templatemo_post {
+	width:	100%;
+	margin: 0 0 10px 0 ;
+	
+	
+}
+
+.templatemo_post_title {
+/*	width: 580px;*/
+        /*width: 100%;*/
+	height: 30px;
+	background:  url(images/templatemo_post_title.jpg) no-repeat;
+	font-size: 18px;
+	padding: 10px 0 0 20px;
+	margin: 0;
+}
+
+.templatemo_post_title a {
+	color: #666;
+	text-decoration: none;
+}
+
+.templatemo_post_title a:hover {
+	color: #0099CC;
+}
+
+.templatemo_post_text {
+	/*width: 558px;*/
+/*	width: 100%;*/
+	border-left: 1px #cccccc solid;
+	border-right: 1px #cccccc solid;
+	padding: 20px 20px 10px 20px;
+}
+
+.templatemo_post_text img {
+	float:left;
+	margin: 0 10px 10px 0;
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+.templatemo_post_bottom {
+	/*width: 580px;*/
+        /*width: 100%;*/
+	height: 30px;
+	background: url(images/templatemo_post_bottom.jpg) no-repeat;
+	font-size: 12px;
+	text-align: right;
+	padding: 10px 20px 0 0;
+	margin: 0;
+}
+
+.templatemo_post_bottom a {
+	color: #666;
+	text-decoration: none;
+}
+
+.templatemo_post_bottom a:hover {
+	color: #0066CC;
+	text-decoration: underline;
+}
+
+#templatemo_left {
+    margin-left: 15px;
+	float: left;
+	/*width: 20%;*/
+}
+
+.templatemo_section {
+	width: 200px;
+	margin: 0 0 5px 0;
+}
+
+.templatemo_section_title {
+	width: 200px;
+	height: 30px;
+	background: url(images/templatemo_section_title.jpg);
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	font-size: 12px;
+	color: #666;
+	padding: 10px 0 0 20px;
+}
+
+.templatemo_section_bottom {
+	width: 180px;
+	background: url(images/templatemo_section_bottom.jpg) bottom no-repeat;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 5px 20px 10px 20px;
+}
+
+#templatemo_bottom_area {
+	background: url(images/templatemo_bottom.jpg) #000 repeat-x;
+	width: 100%;
+	padding: 20px 0;
+}
+
+.templatemo_section_1 {
+	width: 178px;
+	float: left;
+	border: 1px solid #292929;
+	padding: 20px 20px 10px 20px;
+	margin: 0 20px 0 0;
+}
+
+.templatemo_section_2 {
+	width: 408px;
+	float: right;
+	border: 1px solid #292929;
+	padding: 20px 20px 10px 20px;
+	margin: 0;
+}
+
+#templatemo_footer {
+	width: 100%;
+	color: #AAA;
+	font-size: 11px;
+	background: url(images/templatemo_footer.jpg);
+	margin: 10px 0 0 0;
+	padding: 0;
+	text-align: center;
+}
+
+#templatemo_footer a {
+	color: #AAA;
+	text-decoration: none;
+}
+
+#templatemo_footer a:hover {
+	color: #FFF;
+}
+
+.templatemo_list {
+	color: #333;
+	text-align: justify;
+	list-style: none;
+	padding: 0 0 0 10px;
+}
+
+.templatemo_list li {
+	font-size: 11px;
+	list-style: disc;
+	padding: 0px;
+	margin: 5px 0px;
+}
+
+.templatemo_list a {
+	color: #333;
+	text-decoration: none;
+}
+
+.templatemo_list a:hover {
+	color: #0066CC;
+	text-decoration: underline;
+}
+
+.templatemo_gray_list li, .templatemo_gray_list a {
+	color: #999;
+}
+
+.templatemo_gray_list a:hover {
+	color: #FFF;
+}
+
+.cleaner {
+	clear: both;
+	height: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.ddl
+        {
+            border:2px solid #7d6754;
+            border-radius:5px;
+            padding:3px;
+            -webkit-appearance: none; 
+           /* background-image:url('images/drop-arrow.gif');*/
+            background-position:88px;
+            background-repeat:no-repeat;
+            text-indent: 0.01px;/*In Firefox*/
+            text-overflow: '';/*In Firefox*/
+        }
+
+.totlbl {
+            font-size:13px;
+            font-family:Arial, Calibri, Verdana;
+            font-weight:600;                        
+        }
+
+.pantool 
+{
+    height: 40px;padding-top: 0px;display:block;vertical-align:middle;
+}
+
+.olet {
+    float:left;
+}
+
+.orig {
+    float:right; display:inline;
+}
+
+
+/* Model Popup Extender Style */
+.ModalPopupBG
+            {background-color: #666699;filter: alpha(opacity=50);
+            opacity: 0.7;}
+.HellowWorldPopup
+            {min-width:325px;min-height:200px;
+            background:transparent; }
+.PopupHeader
+            {height: 30px;/*background: url('images/img04.gif') no-repeat;*/
+                background-color: darkorange;font-weight:bold;
+                min-width:325px;color:#FFFFFF;
+                text-align:left; padding-top:2px; padding-left:5px;}
+.PopupBody {
+    min-width:325px;background-color:#CCCCCC; padding-top:2px; padding-left:5px;min-height:25px;padding-bottom:10px;
+}
+.PopupCmd
+{
+    min-width:325px;background-color:#FFFFFF;height:25px; padding-top:2px; padding-left:5px; word-spacing:3px;
+}
+    
+ .head1 {
+            background-color: #507CD1;
+            text-align :center ;
+            vertical-align:middle;
+            height : 35px;
+            color : White;
+            font-family:arial sans-serif Calibri;
+            font-size: 10px;
+        }
