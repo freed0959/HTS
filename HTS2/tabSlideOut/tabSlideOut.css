@@ -1,17 +1,48 @@
-      .slide-out-div {
-          padding: 20px;
-          width: 50px;
-          background: #ccc;
-          position:fixed !important;
-          top:0px;    
-          z-index:5000;                     
-      }      
+.slide-out-div {
+    padding: 20px;
+    width: 50px;
+    background: #ccc;
+    position:fixed !important;
+    top:0px;    
+    z-index:5000;                     
+}    
 
+.slide-export1 {
+    padding: 15px;
+    width: 100px;
+    background: #ccc;
+    position:fixed !important;   
+    z-index:5000;                     
+}    
+  
 .slide-schemablend-sum1 {
-          padding: 20px;
-          width: 130px;
-          background: #ccc;
+          padding: 10px;
+          width: 125px;
+          background: #c4c4c4;
           position:fixed !important;
           top:0px;    
-          z-index:5000;                     
+          z-index:5000; 
+          border:solid 2px #0b0b0b;                    
 }      
+
+.slide-schemablend-ctrk1 {
+          padding: 15px;
+          width: 70px;
+          height: 5px;
+          background: #f5f1c1;
+          position:fixed !important;
+          top:0px;    
+          z-index:5000; 
+          border:solid 1px #86b0b8;                    
+}
+
+.slide-schemablend-sumk1 {
+          padding: 10px;
+          width: 120px;
+          height: 80px;
+          background: #f5f1c1;
+          position:fixed !important;
+          top:0px;    
+          z-index:5000; 
+          border:solid 1px #00315b;                    
+}
