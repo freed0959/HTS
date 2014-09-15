@@ -50,6 +50,10 @@ SELECT 4 as idpos, 'Trans. Closed' as pos, COALESCE(COUNT(ID_Pass),0)  as jummat
 	WHERE (CONVERT(nvarchar, TransactionDate, 101) = @dtm)
 	AND (CONVERT(nvarchar, DateClosed, 101) = @dtm) ) as vw1
 
+UNION ALL
+SELECT 5 as idpos, 'Trucks Heading to Rom' as pos, COALESCE(count(id_romdist),0) as jummat
+from tbl_truckdist tr 
+
 INNER JOIN (
 SELECT 1 as idpos, 'Passed Km. 67' as pos, COALESCE(COUNT(ID_Pass),0)  as jummat1
 	FROM [tbl_TruckPass] p
