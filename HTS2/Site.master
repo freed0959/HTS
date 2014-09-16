@@ -200,29 +200,8 @@
                        </ul>
                     </div>
             </asp:Panel>
-            
-            <!--
-            <asp:Panel ID="pan_pasmenu1x" runat="server" Visible="false">
-                 <div id="templatemo_menu" style="position:absolute;left:100px;top: 65px">
-                    <div id="navi" style="margin-left:250px; margin-top: 10px">
-                        <asp:Menu ID="Menu2" runat="server">                        
-                            <DynamicSelectedStyle CssClass="mcurrent" />
-                            <Items>
-                                <asp:MenuItem NavigateUrl="Default" Text="Home" Value="Default"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="Passing?v=1" Text="Km.67 Pass" Value="Passing?v=1"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="Passing?v=2" Text="Km.29 Pass" Value="Passing?v=2"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="Passing?v=3" Text="Kelanis Queue" Value="Passing?v=3"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="Passing?v=4" Text="Closed Transaction" Value="Passing?v=4"></asp:MenuItem> 
-							    <asp:MenuItem NavigateUrl="Rom" Text="ROM Data" Value="Rom"></asp:MenuItem>							
-                            </Items>
-                            <StaticSelectedStyle BackColor="Maroon" ForeColor="White"/>
-                        </asp:Menu>
-                     </div>
-			    </div>
-             </asp:Panel>
-                  -->
-           
-            <asp:Panel ID="pan_pasmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
+
+            <asp:Panel ID="pan_pasmenu1" runat="server" Visible="false" style="margin-top: 109px; display:block;">
                 <div class="orange">  
                         <ul id="mega-menu-1" class="mega-menu" style="padding-left:375px;">	
 	                        <li><a href="#">Hauling</a>
@@ -251,21 +230,8 @@
                        </ul>
                     </div>       
             </asp:Panel>
-          
-
-            <!--<asp:Panel ID="pan_conmenu1x" runat="server" Visible="false">
-                  <div id="templatemo_menu1" style="position:absolute;left:100px;top: 65px">
-                    <div id="navi1" style="margin-left:250px; margin-top: 10px">
-                            <ul>                    
-                                <li><a href="PassCon?v=0">Passing Plan</a></li>
-                                <li><a href="PassCon?v=1">Truck Distribution</a></li>                    
-            	            </ul>
-                        </div>
-                      </div>
-               </asp:Panel>
-            -->
-            
-            <asp:Panel ID="pan_conmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
+                     
+            <asp:Panel ID="pan_conmenu1" runat="server" Visible="false" style="margin-top: 109px; display:block;">
                <div class="green">  
                         <ul id="mega-menu-2" class="mega-menu" style="padding-left:375px;">	    
 	                        <li><a href="#">Hauling</a>
@@ -277,7 +243,7 @@
 			                        </li>			                       
                                     <li><a href="#">Distribution</a>
 			                          <ul>
-				                            <li><a href="PassCon?v=1"">Truck Distribution</a></li>
+				                            <li><a href="PassCon?v=1"">Truck to Rom</a></li>
 			                          </ul>
 			                        </li>                                     
 		                        </ul>
@@ -301,7 +267,7 @@
             
         		
 		<div id="templatemo_content_area" style="margin-top:10px">
-        	<div id="templatemo_right">
+        	<div id="templatemo_right" style="margin-top:10px;">
                 <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
                 <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
                  
