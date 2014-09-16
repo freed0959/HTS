@@ -11,6 +11,16 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
+/*untuk pdf*/
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html;
+using iTextSharp.text.xml;
+using iTextSharp.text.html.simpleparser;
+using System.Web.UI.HtmlControls;
+
+
+
 public partial class HTS2_EditSMB : System.Web.UI.Page
 {
 
@@ -102,7 +112,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
             conn.Close();
 
             grid_info1.DataSource = dt;
-            grid_info1.DataBind();
+            grid_info1.DataBind();            
         }
         catch (Exception ex)
         {
@@ -333,7 +343,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
     {
         String connect = ConnectionString;
         SqlConnection conn = new SqlConnection(connect);
-        SqlCommand cmd = new SqlCommand();
+        SqlCommand cmd = new SqlCommand();        
         cmd.Connection = conn;
 
         cmd.CommandText = "sp_insertMaterial";
@@ -349,13 +359,77 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         cmd.Parameters.Clear();
     }
 
+    /*====================================================================CONVERT TO EXCEL !!!!!================================================================ */
+    public void xlsport(string ds, GridView grd, string _fnm)
+    {
+        grd.Visible = true;
+        WeightBridge.csclass.gridstrip(grd);
+
+        grd.DataSourceID = ds;
+        grd.DataBind();
+
+
+        Random rnd = new Random();
+        int value = Convert.ToInt32(200 * rnd.Next()) + 1;
+        HtmlForm form = new HtmlForm();
+        string attachment = "attachment; filename=" + _fnm + value + "_" + String.Format(DateTime.Now.ToString("MMddyyHHmmss")) + ".xls";
+
+        Response.ClearContent();
+        Response.AddHeader("content-disposition", attachment);
+        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        EnableViewState = false;
+        Response.Charset = string.Empty;
+
+        System.IO.StringWriter stw = new System.IO.StringWriter();
+        HtmlTextWriter htextw = new HtmlTextWriter(stw);
+
+        form.Controls.Add(grd);
+        this.Controls.Add(form);
+
+        form.RenderControl(htextw);
+        Response.Write(stw.ToString());
+        Response.End();
+    }
+
+    public void pdfPort(GridView grd, int lnscp, string _fnm)
+    {
+        grd.Visible = true;
+        if (grd is System.Web.UI.WebControls.GridView)
+        {
+            WeightBridge.csclass.gridstrip(grd);
+        }
+
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment;filename=" + _fnm + "_" + DateTime.Today.ToString("MM/dd/yyyy") + ".pdf");
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+        grd.AllowPaging = false;
+        grd.DataBind();
+        grd.RenderControl(hw);
+        StringReader sr = new StringReader(sw.ToString());
+        Document pdfDoc = new Document(PageSize.A3, 10f, 10f, 50f, 30f);
+        if (lnscp == 1)
+        {
+            pdfDoc.SetPageSize(iTextSharp.text.PageSize.A3.Rotate());
+        }
+        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        PdfWriter pdfWrite = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+
+        pdfDoc.Open();
+        htmlparser.Parse(sr);
+        pdfDoc.Close();
+
+        Response.Write(pdfDoc);
+        Response.End();
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
 
-    protected void Page_Init(object sender, EventArgs e)
-    {
+    protected void Page_Init(object sender, EventArgs e) {
         string datak = Request.QueryString["idp"].ToString();
         Page.Title = GetBplanInfoPttle(datak);
         GetBplanTable(datak);
@@ -365,6 +439,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         GetSnip1(datak, "43", grid_ratiok3);
         GetSnip1(datak, "44", grid_ratiosp);
 
+
         int ugrup = 5;
         if (Request.Cookies["htspub"] != null)
         {
@@ -373,9 +448,6 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
 
         Control maintctrl = (Control)Page.LoadControl("PassMenu.ascx");
         passmenu1.Controls.Add(maintctrl);
-
-        Control romctrl = (Control)Page.LoadControl("RomCondition1.ascx");
-        pan_rom1.Controls.Add(romctrl);
 
         tab29con.ActiveTabIndex = 0;
 
@@ -432,25 +504,25 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                 }
                 break;
 
-            default:
-                div_btn1.Visible = false;
-                div_btn3.Visible = false;
-                div_btnsp.Visible = false;
+            default:                 
+                    div_btn1.Visible = false;
+                    div_btn3.Visible = false;
+                    div_btnsp.Visible = false;
 
-                div_upload1.Visible = false;
-                div_upload2.Visible = false;
-                div_upload3.Visible = false;
+                    div_upload1.Visible = false;
+                    div_upload2.Visible = false;
+                    div_upload3.Visible = false;
 
-                Panel1.Visible = false;
-                Panel3.Visible = false;
-                Panel5.Visible = false;
-                break;
-
+                    Panel1.Visible = false;
+                    Panel3.Visible = false;
+                    Panel5.Visible = false;
+                    break;
+               
         }
-
+        
     }
 
-
+ 
     protected void link_save_Click(object sender, EventArgs e)
     {
         string idp = Request.QueryString["idp"].ToString();
@@ -530,7 +602,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                     WeightBridge.csclass.mymsg(":: error on checking raw cargo", "#");
                     return;
                 }
-
+                             
                 // check contractor name
                 try
                 {
@@ -541,7 +613,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                         if (cekvalue == 0)
                         {
                             link_save.Enabled = true;
-                            WeightBridge.csclass.mymsg(":: " + kon + " (line " + (i + 1) + ") is unknown, upload canceled", "#");
+                            WeightBridge.csclass.mymsg(":: " + kon + " (line "+ (i+1) +") is unknown, upload canceled", "#");
                             oconn = null;
                             return;
                         }
@@ -559,7 +631,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                 {
                     for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        string kon = ds.Tables[0].Rows[i][0].ToString();
+                        string kon = ds.Tables[0].Rows[i][0].ToString();                        
                         string mat = ds.Tables[0].Rows[i][1].ToString();
 
                         int cekduplicat = cekMaterialKode(kon, mat, idp, "42");
@@ -806,7 +878,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         }
 
         link_K3.Enabled = true;
-
+       
     }
 
     protected void link_stp_Click(object sender, EventArgs e)
@@ -955,7 +1027,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
 
                     WeightBridge.csclass.mymsg("Blending scheme for Stockpile upload complete", "EditSMB?idp=" + idp);
                     grdStp.DataBind();
-
+                    
                 }
                 catch
                 {
@@ -986,41 +1058,38 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
             return;
         }
 
-        link_stp.Enabled = true;
+        link_stp.Enabled = true;       
     }
-
+    
 
     protected void grid_info1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (e.Row.RowType == DataControlRowType.Header)
-        {
-
+        if (e.Row.RowType == DataControlRowType.Header) {
+            
             for (int i = 0; i < 5; i++)
             {
                 e.Row.Cells[i].BorderStyle = BorderStyle.Solid;
                 e.Row.Cells[i].BorderWidth = 1;
             }
-
+            
         }
 
     }
 
     protected void grd_mtrSkmBlnd_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
+        if (e.Row.RowType == DataControlRowType.DataRow) {
+            MergeRowsWithSameContent(grd_mtrSkmBlnd, 3, 3);
 
-            if (Request.QueryString["noedit"] != null)
-            {
+            if (Request.QueryString["noedit"] != null) {
                 grd_mtrSkmBlnd.Columns[4].Visible = false;
                 grd_mtrSkmBlnd.Columns[5].Visible = false;
                 grd_mtrSkmBlnd.Columns[6].Visible = true;
                 grd_mtrSkmBlnd.Columns[7].Visible = true;
-                grd_mtrSkmBlnd.Columns[13].Visible = false;
+                grd_mtrSkmBlnd.Columns[15].Visible = false;
             }
 
-            if (DataBinder.Eval(e.Row.DataItem, "KontraktorKode").ToString() == "TOTAL")
-            {
+            if (DataBinder.Eval(e.Row.DataItem, "KontraktorKode").ToString()=="TOTAL") {
                 e.Row.Cells[0].ForeColor = System.Drawing.Color.Transparent;
 
                 e.Row.BackColor = System.Drawing.Color.Yellow;
@@ -1035,12 +1104,10 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
 
                 CheckBox chb = (CheckBox)e.Row.FindControl("cbRows");
                 chb.Visible = false;
-
-                Label lbl = (Label)e.Row.FindControl("lbl_trclama");
-                lbl.Visible = true;
-
-                e.Row.Cells[3].ForeColor = System.Drawing.Color.Transparent;
-
+                                
+                //Label lbl = (Label)e.Row.FindControl("lbl_mtLama");
+                //lbl.Visible = true;
+                
             }
         }
     }
@@ -1049,19 +1116,21 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            MergeRowsWithSameContent(grd_mtrSkmBlnd_K3, 3, 3);
+            
             if (Request.QueryString["noedit"] != null)
             {
                 grd_mtrSkmBlnd_K3.Columns[4].Visible = false;
                 grd_mtrSkmBlnd_K3.Columns[5].Visible = false;
                 grd_mtrSkmBlnd_K3.Columns[6].Visible = true;
                 grd_mtrSkmBlnd_K3.Columns[7].Visible = true;
-                grd_mtrSkmBlnd_K3.Columns[13].Visible = false;
+                grd_mtrSkmBlnd_K3.Columns[15].Visible = false;
             }
 
             if (DataBinder.Eval(e.Row.DataItem, "KontraktorKode").ToString() == "TOTAL")
             {
                 e.Row.Cells[0].ForeColor = System.Drawing.Color.Transparent;
-
+                
                 e.Row.BackColor = System.Drawing.Color.Yellow;
                 e.Row.Font.Bold = true;
                 e.Row.Font.Size = 9;
@@ -1075,10 +1144,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                 CheckBox chb = (CheckBox)e.Row.FindControl("cbRowsK3");
                 chb.Visible = false;
 
-                Label lbl = (Label)e.Row.FindControl("lbl_trcK3");
-                lbl.Visible = true;
-
-                e.Row.Cells[3].ForeColor = System.Drawing.Color.Transparent;
+                //Label lbl = (Label)e.Row.FindControl("lbl_trcK3");
+                //lbl.Visible = true;
 
             }
         }
@@ -1088,13 +1155,15 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            MergeRowsWithSameContent(grdStp, 3, 3);
+
             if (Request.QueryString["noedit"] != null)
             {
                 grdStp.Columns[4].Visible = false;
                 grdStp.Columns[5].Visible = false;
                 grdStp.Columns[6].Visible = true;
                 grdStp.Columns[7].Visible = true;
-                grdStp.Columns[13].Visible = false;
+                grdStp.Columns[15].Visible = false;
             }
 
             if (DataBinder.Eval(e.Row.DataItem, "KontraktorKode").ToString() == "TOTAL")
@@ -1113,11 +1182,9 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
 
                 CheckBox chb = (CheckBox)e.Row.FindControl("CbRowsSp");
                 chb.Visible = false;
-
-                Label lbl = (Label)e.Row.FindControl("lbl_trcSp");
-                lbl.Visible = true;
-
-                e.Row.Cells[3].ForeColor = System.Drawing.Color.Transparent;
+                
+                //Label lbl = (Label)e.Row.FindControl("lbl_mtLamaSt");
+                //lbl.Visible = true;
 
             }
         }
@@ -1127,32 +1194,49 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
     {
         string idp = Request.QueryString["idp"].ToString();
 
-        try
-        {
-            String connect = ConnectionString;
-            SqlConnection conn = new SqlConnection(connect);
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            int i = 0;
+        try {
+                String connect = ConnectionString;
+                SqlConnection conn = new SqlConnection(connect);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                int i = 0;
 
-            foreach (GridViewRow row in grd_mtrSkmBlnd.Rows)
-            {
-                DropDownList ddl1 = (DropDownList)row.FindControl("DropDownList1");
-                Label lbl_mtrl = (Label)row.FindControl("lbl_mtLama");
-                Label lbl_trc = (Label)row.FindControl("lbl_trcLama");
-                Label lbl_idAc = (Label)row.FindControl("lbl_idAct");
-                Label lbl_kntr = (Label)row.FindControl("lbl_kntr");
-                TextBox txt_trCount = (TextBox)row.FindControl("txt_trCount");
+                foreach (GridViewRow row in grd_mtrSkmBlnd.Rows)
+                {                    
+                    DropDownList ddl1 = (DropDownList)row.FindControl("DropDownList1");
+                    Label lbl_mtrl = (Label)row.FindControl("lbl_mtLama");
+                    Label lbl_trc = (Label)row.FindControl("lbl_trcLama");
+                    Label lbl_idAc = (Label)row.FindControl("lbl_idAct");
+                    Label lbl_kntr = (Label)row.FindControl("lbl_kntr");
+                    TextBox txt_trCount = (TextBox)row.FindControl("txt_trCount");
 
-                if (lbl_mtrl.Text.Trim().ToLower() != ddl1.SelectedValue.ToString().Trim().ToLower())
-                {
-                    int cek = cekMaterialKode(lbl_kntr.Text, ddl1.SelectedValue.ToString(), idp, "42");
-                    //WeightBridge.csclass.mymsg(" cek ==> " + cek, "#");
-                    if (cek == 1)
+                    if (lbl_mtrl.Text.Trim().ToLower() != ddl1.SelectedValue.ToString().Trim().ToLower())
                     {
-                        cmd.CommandText = "SP_Upd_Mtrl";
+                        int cek = cekMaterialKode(lbl_kntr.Text, ddl1.SelectedValue.ToString(), idp, "42");
+                        //WeightBridge.csclass.mymsg(" cek ==> " + cek, "#");
+                        if (cek == 1)
+                        {
+                            cmd.CommandText = "SP_Upd_Mtrl";
+                            cmd.Parameters.AddWithValue("@idpl", idp.ToString());
+                            cmd.Parameters.AddWithValue("@mtrl", ddl1.SelectedValue.ToString());
+                            cmd.Parameters.AddWithValue("@ID_actMB", lbl_idAc.Text.ToString());
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            conn.Open();
+                            cmd.ExecuteNonQuery();
+                            conn.Close();
+                            cmd.Parameters.Clear();
+
+                            i += 1;
+                        }
+                        else {
+                            WeightBridge.csclass.mymsg(":: "+ ddl1.SelectedValue.ToString() +" already used for " + lbl_kntr.Text + ", update cancelled.", "#");                            
+                        }
+                    }
+                    else if (txt_trCount.Text.Trim().ToLower() != lbl_trc.Text.Trim().ToLower()) 
+                    {                       
+                        cmd.CommandText = "SP_Upd_trCount";
                         cmd.Parameters.AddWithValue("@idpl", idp.ToString());
-                        cmd.Parameters.AddWithValue("@mtrl", ddl1.SelectedValue.ToString());
+                        cmd.Parameters.AddWithValue("@trCount", int.Parse(txt_trCount.Text));
                         cmd.Parameters.AddWithValue("@ID_actMB", lbl_idAc.Text.ToString());
                         cmd.CommandType = CommandType.StoredProcedure;
                         conn.Open();
@@ -1161,42 +1245,23 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                         cmd.Parameters.Clear();
 
                         i += 1;
-                    }
-                    else
-                    {
-                        WeightBridge.csclass.mymsg(":: " + ddl1.SelectedValue.ToString() + " already used for " + lbl_kntr.Text + ", update cancelled.", "#");
-                    }
+                    }        
                 }
-                else if (txt_trCount.Text.Trim().ToLower() != lbl_trc.Text.Trim().ToLower())
+
+                if (i > 0)
                 {
-                    cmd.CommandText = "SP_Upd_trCount";
-                    cmd.Parameters.AddWithValue("@idpl", idp.ToString());
-                    cmd.Parameters.AddWithValue("@trCount", int.Parse(txt_trCount.Text));
-                    cmd.Parameters.AddWithValue("@ID_actMB", lbl_idAc.Text.ToString());
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    cmd.Parameters.Clear();
-
-                    i += 1;
+                    WeightBridge.csclass.mymsg("Data updated", "EditSMB.aspx?idp=" + idp);
+                    grd_mtrSkmBlnd.DataBind();
                 }
-            }
-
-            if (i > 0)
-            {
-                WeightBridge.csclass.mymsg("Data updated", "EditSMB.aspx?idp=" + idp);
-                grd_mtrSkmBlnd.DataBind();
-            }
-
-        }
+                   
+             }        
         catch (Exception ex)
         {
             WeightBridge.csclass.mymsg(":: error " + ex.ToString().Substring(0, 50), "#");
         }
     }
 
-    protected void ibt_delete1_Click(object sender, ImageClickEventArgs e)
+     protected void ibt_delete1_Click(object sender, ImageClickEventArgs e)
     {
         string idp = Request.QueryString["idp"].ToString();
 
@@ -1209,7 +1274,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
 
             foreach (GridViewRow row in grd_mtrSkmBlnd.Rows)
             {
-                Label lbl_idAc = (Label)row.FindControl("lbl_idAct");
+                Label lbl_idAc = (Label)row.FindControl("lbl_idAct");                
                 CheckBox cbRows = (CheckBox)row.FindControl("cbRows");
 
                 if (cbRows.Checked == true)
@@ -1226,7 +1291,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                 }
             }
             WeightBridge.csclass.mymsg("Delete succesfull", "EditSMB.aspx?idp=" + idp);
-            grd_mtrSkmBlnd.DataBind();
+            grd_mtrSkmBlnd.DataBind(); 
         }
         catch (Exception ex)
         {
@@ -1234,26 +1299,26 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         }
     }
 
-    protected void chkSelectAll_CheckedChanged(object sender, EventArgs e)
-    {
-        CheckBox objChkAll = (CheckBox)grd_mtrSkmBlnd.HeaderRow.FindControl("chkSelectAll");
-        if (objChkAll.Checked)
-        {
-            foreach (GridViewRow objGVR in grd_mtrSkmBlnd.Rows)
-            {
-                CheckBox objChkIndividual = (CheckBox)objGVR.FindControl("cbRows");
-                objChkIndividual.Checked = true;
-            }
-        }
-        else
-        {
-            foreach (GridViewRow objGVR in grd_mtrSkmBlnd.Rows)
-            {
-                CheckBox objChkIndividual = (CheckBox)objGVR.FindControl("cbRows");
-                objChkIndividual.Checked = false;
-            }
-        }
-    }
+     protected void chkSelectAll_CheckedChanged(object sender, EventArgs e)
+     {
+         CheckBox objChkAll = (CheckBox)grd_mtrSkmBlnd.HeaderRow.FindControl("chkSelectAll");
+         if (objChkAll.Checked)
+         {
+             foreach (GridViewRow objGVR in grd_mtrSkmBlnd.Rows)
+             {
+                 CheckBox objChkIndividual = (CheckBox)objGVR.FindControl("cbRows");
+                 objChkIndividual.Checked = true;
+             }
+         }
+         else
+         {
+             foreach (GridViewRow objGVR in grd_mtrSkmBlnd.Rows)
+             {
+                 CheckBox objChkIndividual = (CheckBox)objGVR.FindControl("cbRows");
+                 objChkIndividual.Checked = false;
+             }
+         }
+     }
 
     protected void ibt_savek3_Click(object sender, ImageClickEventArgs e)
     {
@@ -1285,6 +1350,7 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                         cmd.CommandText = "SP_Upd_Mtrl";
                         cmd.Parameters.AddWithValue("@idpl", idp.ToString());
                         cmd.Parameters.AddWithValue("@mtrl", ddl1.SelectedValue.ToString());
+                        cmd.Parameters.AddWithValue("@trCount", int.Parse(txt_trCount.Text));
                         cmd.Parameters.AddWithValue("@ID_actMB", lbl_idAc.Text.ToString());
                         cmd.CommandType = CommandType.StoredProcedure;
                         conn.Open();
@@ -1529,9 +1595,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grd_mtrSkmBlnd.Columns[5].Visible = false;
         grd_mtrSkmBlnd.Columns[6].Visible = true;
         grd_mtrSkmBlnd.Columns[7].Visible = true;
-        grd_mtrSkmBlnd.Columns[13].Visible = false;
-
-        WeightBridge.ExportFile.xlsport(grd_mtrSkmBlnd, "BlendSchemeK1_", this);
+        grd_mtrSkmBlnd.Columns[15].Visible = false;
+        xlsport("ds_SP_MtrSkmBlndg", grd_mtrSkmBlnd, "BlendSchemeK1_");
     }
 
     protected void ibt_pdf1_Click(object sender, ImageClickEventArgs e)
@@ -1540,11 +1605,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grd_mtrSkmBlnd.Columns[5].Visible = false;
         grd_mtrSkmBlnd.Columns[6].Visible = true;
         grd_mtrSkmBlnd.Columns[7].Visible = true;
-        grd_mtrSkmBlnd.Columns[13].Visible = false;
-
-
-        WeightBridge.ExportFile.pdfport(grd_mtrSkmBlnd, "BlendSchemeK1_", 1, this);
-
+        grd_mtrSkmBlnd.Columns[15].Visible = false;
+        pdfPort(grd_mtrSkmBlnd, 1, "BlendSchemeK1_");
     }
 
     protected void ibt_xls2_Click(object sender, ImageClickEventArgs e)
@@ -1553,9 +1615,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grd_mtrSkmBlnd_K3.Columns[5].Visible = false;
         grd_mtrSkmBlnd_K3.Columns[6].Visible = true;
         grd_mtrSkmBlnd_K3.Columns[7].Visible = true;
-        grd_mtrSkmBlnd_K3.Columns[13].Visible = false;
-
-        WeightBridge.ExportFile.xlsport(grd_mtrSkmBlnd_K3, "BlendSchemeK3_", this);
+        grd_mtrSkmBlnd_K3.Columns[15].Visible = false;
+        xlsport("ds_SP_MtrSkmBlndg_K3", grd_mtrSkmBlnd_K3, "BlendSchemeK3_");
     }
 
     protected void ibt_pdf2_Click(object sender, ImageClickEventArgs e)
@@ -1564,9 +1625,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grd_mtrSkmBlnd_K3.Columns[5].Visible = false;
         grd_mtrSkmBlnd_K3.Columns[6].Visible = true;
         grd_mtrSkmBlnd_K3.Columns[7].Visible = true;
-        grd_mtrSkmBlnd_K3.Columns[13].Visible = false;
-
-        WeightBridge.ExportFile.pdfport(grd_mtrSkmBlnd_K3, "BlendSchemeK3_", 1, this);
+        grd_mtrSkmBlnd_K3.Columns[15].Visible = false;
+        pdfPort(grd_mtrSkmBlnd_K3, 1, "BlendSchemeK3_");
     }
 
     protected void ibt_xls3_Click(object sender, ImageClickEventArgs e)
@@ -1575,9 +1635,8 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grdStp.Columns[5].Visible = false;
         grdStp.Columns[6].Visible = true;
         grdStp.Columns[7].Visible = true;
-        grdStp.Columns[13].Visible = false;
-
-        WeightBridge.ExportFile.xlsport(grdStp, "BlendSchemeStockpile_", this);
+        grdStp.Columns[15].Visible = false;
+        xlsport("ds_SP_MtrSkmBlndg_st", grdStp, "BlendSchemeStockpile_");
     }
 
     protected void ibt_pdf3_Click(object sender, ImageClickEventArgs e)
@@ -1586,16 +1645,14 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
         grdStp.Columns[5].Visible = false;
         grdStp.Columns[6].Visible = true;
         grdStp.Columns[7].Visible = true;
-        grdStp.Columns[13].Visible = false;
-
-        WeightBridge.ExportFile.pdfport(grdStp, "BlendSchemeStockpile_", 1, this);
+        grdStp.Columns[15].Visible = false;
+        pdfPort(grdStp, 1, "BlendSchemeStockpile_");
     }
 
     protected void grid_sumtruck1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            e.Row.Cells[0].Width = 60;
+        if (e.Row.RowType == DataControlRowType.DataRow) {
+            e.Row.Cells[0].Width = 60;            
             e.Row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
         }
 
@@ -1607,13 +1664,12 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
             e.Row.Cells[0].Width = 40;
             e.Row.Cells[1].Width = 45;
             e.Row.Cells[2].Width = 40;
-
+            
         }
 
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            switch (DataBinder.Eval(e.Row.DataItem, "Product").ToString())
-            {
+            switch (DataBinder.Eval(e.Row.DataItem, "Product").ToString()){
                 case "E5000":
                     e.Row.Cells[0].BackColor = System.Drawing.Color.FromArgb(153, 204, 0);
                     break;
@@ -1621,12 +1677,12 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
                     e.Row.Cells[0].BackColor = System.Drawing.Color.FromArgb(255, 204, 0);
                     break;
                 case "E4000":
-                    e.Row.Cells[0].BackColor = System.Drawing.Color.Tan;
+                    e.Row.Cells[0].BackColor = System.Drawing.Color.Tan;                    
                     break;
                 case "TOTAL":
                     e.Row.BackColor = System.Drawing.Color.Gray;
                     break;
-            }
+            }            
             e.Row.Cells[1].HorizontalAlign = HorizontalAlign.Right;
             e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
             e.Row.Cells[2].Text = String.Concat((((DataRowView)e.Row.DataItem)["Ratio"]).ToString(), "%");
@@ -1664,18 +1720,5 @@ public partial class HTS2_EditSMB : System.Web.UI.Page
             e.Row.Cells[2].Text = String.Concat((((DataRowView)e.Row.DataItem)["Ratio"]).ToString(), "%");
         }
     }
-
-    protected void grd_mtrSkmBlnd_DataBound(object sender, EventArgs e)
-    {
-        WeightBridge.csclass.mergeOnDatabound(grd_mtrSkmBlnd, 2, 2);
-    }
-    protected void grd_mtrSkmBlnd_K3_DataBound(object sender, EventArgs e)
-    {
-        WeightBridge.csclass.mergeOnDatabound(grd_mtrSkmBlnd_K3, 2, 2);
-
-    }
-    protected void grdStp_DataBound(object sender, EventArgs e)
-    {
-        WeightBridge.csclass.mergeOnDatabound(grdStp, 2, 2);
-    }
+   
 }
