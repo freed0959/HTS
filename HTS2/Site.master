@@ -9,57 +9,50 @@
     <meta name="description" content="Adaro Hauling Tracking System Intranet Web Application Copyright PT Adaro Indonesia" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
     <meta name="viewport" content="width=device-width" />
-    <title><%: Page.Title %>Page</title>
-    
+    <title><%: Page.Title %> Page</title>
+
     <link href="templatemo_style.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <script language="javascript" src="templatemo_image_fader.js" type="text/javascript"></script>
-    <script language="javascript" type="text/javascript">
-        function clearText(field) {
-            if (field.defaultValue == field.value) field.value = '';
-            else if (field.value == '') field.value = field.defaultValue;
-        }
-    </script>
-
-    <link href="megamenu/css/dcmegamenu.css" rel="stylesheet" type="text/css"/>
-    <script src="megamenu/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../Scripts/jquery-1.8.2.min.js"></script>
+    <script src="../Scripts/jquery-ui-1.8.24.min.js"></script>
+    <link href="megamenu/css/dcmegamenu.css" rel="stylesheet" type="text/css"/>    
     <script src="megamenu/js/jquery.hoverIntent.minified.js" type="text/javascript"></script>
     <script src="megamenu/js/jquery.dcmegamenu.1.3.3.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-            $(document).ready(function($){	            
-	            $('#mega-menu-0').dcMegaMenu({
-		            rowItems: '3',
-		            speed: 'fast',
-		            effect: 'slide'
-	            });
-
-	            $('#mega-menu-1').dcMegaMenu({
-	                rowItems: '3',
-	                speed: 'fast',
-	                effect: 'fade'
-	            });
-
-	            $('#mega-menu-2').dcMegaMenu({
-	                rowItems: '2',
-	                speed: 'fast',
-	                effect: 'fade'
-	            });
+        $(document).ready(function ($) {
+            $('#mega-menu-0').dcMegaMenu({
+                rowItems: '3',
+                speed: 'fast',
+                effect: 'slide'
             });
+
+            $('#mega-menu-1').dcMegaMenu({
+                rowItems: '3',
+                speed: 'fast',
+                effect: 'fade'
+            });
+
+            $('#mega-menu-2').dcMegaMenu({
+                rowItems: '2',
+                speed: 'fast',
+                effect: 'fade'
+            });
+        });
         </script>
 
     <link href="megamenu/css/skins/orange.css" rel="stylesheet" type="text/css"/>    
     <link href="megamenu/css/skins/green.css" rel="stylesheet" type="text/css"/>
 
-
     <asp:PlaceHolder id="head" runat="server">
-        <script type="text/jscript" src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>
+        <script type="text/jscript" src="<%: ResolveUrl("~/Scripts/modernizr-2.6.2.js") %>"></script>        
     </asp:PlaceHolder>
+
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />    
 </head>
 
-<body>
+<body class="ui-widget ui-widget-content ui-corner-all">
      <form id="form1" runat="server">
          <asp:ScriptManager runat="server">
             <Scripts>
@@ -130,7 +123,30 @@
                     <div class="orange">  
                         <ul id="mega-menu-0" class="mega-menu" style="padding-left:175px;">
 	                        <li><a href="Default">Home</a></li>
-	                        <li><a href="Default2">QC-Mine</a></li>
+	                        <li><a href="Default2">QC-Mine</a>
+                                 <ul>			                        
+			                        <li><a href="#">Weekly Projection</a>
+			                            <ul>
+					                        <li><a href="Default4?v=0">PTR</a></li>
+                                            <li><a href="Default5?v=0">ROM</a></li>
+                                            <li><a href="Default2?v=1">Blending</a></li>
+                                            <li><a href="Default?uc=1">Resume</a></li>	
+				                        </ul>
+			                        </li>	
+                                     <li><a href="#">Quality</a>
+			                            <ul>
+					                        <li><a href="Default2?v=0">Portal</a></li>                                            
+                                            <li><a href="Default?uc=1">Remaining ROM Stock</a></li>	
+				                        </ul>
+			                        </li>			                       
+                                    <li><a href="#">Other Info</a>
+			                          <ul>                                          		
+				                          <li><a href="Default2?v=2">Quality History on Alamo</a></li>			
+                                          <li><a href="Default2?v=3">Material Mapping</a></li>
+			                          </ul>
+			                        </li>                                     
+		                        </ul>
+	                        </li>	                        
 	                        <li><a href="CoalProd">Coal Production</a></li>
                             <li><a href="Rom">ROM</a></li>                            
 	                        <li><a href="#">Hauling</a>
@@ -201,7 +217,7 @@
                     </div>
             </asp:Panel>
 
-            <asp:Panel ID="pan_pasmenu1" runat="server" Visible="false" style="margin-top: 109px; display:block;">
+            <asp:Panel ID="pan_pasmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
                 <div class="orange">  
                         <ul id="mega-menu-1" class="mega-menu" style="padding-left:375px;">	
 	                        <li><a href="#">Hauling</a>
@@ -231,7 +247,7 @@
                     </div>       
             </asp:Panel>
                      
-            <asp:Panel ID="pan_conmenu1" runat="server" Visible="false" style="margin-top: 109px; display:block;">
+            <asp:Panel ID="pan_conmenu1" runat="server" Visible="false" style="margin-top: 109px; display:none;">
                <div class="green">  
                         <ul id="mega-menu-2" class="mega-menu" style="padding-left:375px;">	    
 	                        <li><a href="#">Hauling</a>
@@ -266,8 +282,8 @@
         </div>-->
             
         		
-		<div id="templatemo_content_area" style="margin-top:10px">
-        	<div id="templatemo_right" style="margin-top:10px;">
+		<div id="templatemo_content_area" style="margin-top:100px">
+        	<div id="templatemo_right" style="margin-top:0px;">
                 <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
                 <asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
                  
@@ -295,7 +311,7 @@
                     	Refference
                     </div>
                     <div class="templatemo_section_bottom">
-                        <asp:HyperLink ID="hyp_map1" runat="server" Text="Material Mapping" NavigateUrl="~/HTS2/Default2.aspx?map=1" Font-Underline="False"></asp:HyperLink>                        
+                        <asp:HyperLink ID="hyp_map1" runat="server" Text="Material Mapping" NavigateUrl="~/HTS2/Default2.aspx?v=3&map=1" Font-Underline="False"></asp:HyperLink>                        
                     </div>
 				</div>
                 

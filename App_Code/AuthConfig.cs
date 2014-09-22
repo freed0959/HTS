@@ -97,6 +97,19 @@ namespace WeightBridge
             }
         }
 
+        public static void errmsg(string strMessage)
+        {
+            // Gets the executing web page
+            Page page = HttpContext.Current.CurrentHandler as Page;
+            string script = string.Format("alert('{0}');", strMessage);
+
+            // Only show the alert if it's not already added to the 
+            if (page != null && !page.ClientScript.IsClientScriptBlockRegistered("alert"))
+            {
+                page.ClientScript.RegisterClientScriptBlock(page.GetType(), "alert", script, true /* addScriptTags */);
+            }
+        }
+
         public static void dtemplt(string tname, Page pg)
         { 
              string _fName = "E:\\Websites\\pts_online\\storage\\"+ tname;
@@ -255,6 +268,31 @@ namespace WeightBridge
                        }
                    }
                }
+           }
+       }
+
+       public static void delFile(string picPath)
+       {
+           try
+           {
+               FileInfo TheFile = new FileInfo(picPath);
+               if (TheFile.Exists)
+               {
+                   File.Delete(picPath);
+               }
+               else
+               {
+                   throw new FileNotFoundException();
+               }
+
+           }
+           catch (FileNotFoundException ex)
+           {
+               WeightBridge.csclass.errmsg("" + ex.ToString().Substring(0, 50));
+           }
+           catch (Exception ex)
+           {
+               WeightBridge.csclass.errmsg("" + ex.ToString().Substring(0, 50));
            }
        }
         
